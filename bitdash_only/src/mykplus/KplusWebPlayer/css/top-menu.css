@@ -1,0 +1,28 @@
+/*top menu*/
+
+.kplus-video-overlay > .kplus-top-menu {
+    margin-top: 15px;
+    margin-left: 0;
+}
+
+.kplus-top-menu > .kplus-menu-button {
+    display: inline-block;
+    margin-left: 5px;
+    padding-right: 5px;
+    padding-left: 5px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    background: rgba(36, 36, 36, 1);
+    color: rgba(137, 199, 62, 1);
+    font-weight: bolder;
+    font-size: small;
+    cursor: pointer;
+}
+
+.kplus-top-menu > .kplus-menu-button:nth-child(1) {
+    margin-left: 0;
+}
+
+.kplus-top-menu > .kplus-menu-button > p {
+    padding: 5px;
+}

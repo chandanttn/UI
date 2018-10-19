@@ -1,0 +1,8 @@
+F:\bitbucket_repos\vwks-kplusweb\without_irdeto_api\silverlight_vs\kplus_silverlight_player\kplus_silverlight_player.Web\bin\kplus_silverlight_player.Web.dll.config
+F:\bitbucket_repos\vwks-kplusweb\without_irdeto_api\silverlight_vs\kplus_silverlight_player\kplus_silverlight_player.Web\bin\kplus_silverlight_player.Web.dll
+F:\bitbucket_repos\vwks-kplusweb\without_irdeto_api\silverlight_vs\kplus_silverlight_player\kplus_silverlight_player.Web\bin\kplus_silverlight_player.Web.pdb
+F:\bitbucket_repos\vwks-kplusweb\without_irdeto_api\silverlight_vs\kplus_silverlight_player\kplus_silverlight_player.Web\obj\Release\kplus_silverlight_player.Web.csprojResolveAssemblyReference.cache
+F:\bitbucket_repos\vwks-kplusweb\without_irdeto_api\silverlight_vs\kplus_silverlight_player\kplus_silverlight_player.Web\obj\Release\kplus_silverlight_player.Web.Properties.Resources.resources
+F:\bitbucket_repos\vwks-kplusweb\without_irdeto_api\silverlight_vs\kplus_silverlight_player\kplus_silverlight_player.Web\obj\Release\kplus_silverlight_player.Web.csproj.GenerateResource.Cache
+F:\bitbucket_repos\vwks-kplusweb\without_irdeto_api\silverlight_vs\kplus_silverlight_player\kplus_silverlight_player.Web\obj\Release\kplus_silverlight_player.Web.dll
+F:\bitbucket_repos\vwks-kplusweb\without_irdeto_api\silverlight_vs\kplus_silverlight_player\kplus_silverlight_player.Web\obj\Release\kplus_silverlight_player.Web.pdb

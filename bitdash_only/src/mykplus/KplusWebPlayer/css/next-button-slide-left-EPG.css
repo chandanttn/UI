@@ -1,0 +1,175 @@
+/*slide left broadcast next button*/
+
+.base-container > .broadcast-schedule-container {
+    position: relative;
+    top: 11px;
+    margin-bottom: 18px;
+    width: 100%;
+    height: 60px;
+    background: rgba(0, 0, 0, 0.6);
+    text-align: center;
+    font-style: italic;
+    display: flex;
+}
+
+.broadcast-schedule-container > .next-button-container {
+    display: inline-block;
+    width: 15%;
+    height: 60px;
+    color: rgba(191, 191, 191, 1);
+    vertical-align: top;
+    text-align: center;
+    font-weight: bolder;
+    font-style: italic;
+    font-size: small;
+    line-height: 60px;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+
+.next-button-container > .next-button {
+    width: 100%;
+    height: 100%;
+}
+
+.next-button > .nextEPGnextTxt {
+    display: inline-block;
+    overflow: visible;
+    
+}
+
+.next-button > img {
+    margin-left: 10px;
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+}
+
+.broadcast-schedule-container > .left-scroll-button {
+    display: inline-block;
+    /*    margin-right: 5px;*/
+    /*margin-left: -4px;*/
+    text-align: left;
+    height: 100%;
+    vertical-align: top;
+    line-height: 60px;
+    width: 3%;
+}
+
+.broadcast-schedule-container > .left-scroll-button:hover {
+    cursor: pointer;
+}
+
+.broadcast-schedule-container > .left-scroll-button > img {
+    width: 26px;
+    vertical-align: middle;
+}
+
+.broadcast-schedule-container > .right-scroll-button {
+    display: inline-block;
+    /*    margin-left: 5px;*/
+    /*margin-right: -4px;*/
+    text-align: right;
+    height: 100%;
+    vertical-align: top;
+    line-height: 60px;
+    width: 3%;
+}
+
+.broadcast-schedule-container > .right-scroll-button:hover {
+    cursor: pointer;
+}
+
+.broadcast-schedule-container > .right-scroll-button > img {
+    width: 26px;
+    vertical-align: middle;
+}
+
+.broadcast-schedule-container > .broadcast-content {
+    display: inline-block;
+    overflow: hidden;
+    margin-top: 13px;
+    margin-bottom: 14px;
+    width: 67%;
+    white-space: nowrap;
+}
+
+.broadcast-schedule-container > .broadcast-content > .content-div {
+    display: inline-block;
+    margin-left: 30px;
+    text-align: left;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.broadcast-schedule-container > .broadcast-content > .content-div:nth-child(1) {
+    margin-left: 5px;
+   }
+
+.content-div > .broadcast-sch-content-title {
+    color: rgba(192, 192, 192, 1);
+    font-size: 12px;
+}
+
+.content-div > .broadcast-sch-content-title[data-state=crnt-prog-title] {
+    color: rgba(192, 192, 192, 1);
+}
+.content-div > .broadcast-sch-content-title[data-state=next-to-crnt-prog-title] {
+    color: rgba(192, 192, 192, 1);
+}
+.content-div > .broadcast-sch-content-title[data-state=next-next-to-crnt-prog-title] {
+    color: rgba(100, 100, 100, 1);
+}
+
+.content-div > .broadcast-content-sch-timings {
+    color: rgba(192, 192, 192, 1);
+    font-size: 11px;
+}
+
+.content-div > .broadcast-content-sch-timings[data-state=crnt-prog-timings] {
+    color: rgba(137, 199, 62, 1);
+    font-size: 11px;
+}
+.content-div > .broadcast-content-sch-timings[data-state=next-to-crnt-prog-timings] {
+    color: rgba(192, 192, 192, 1);
+    font-size: 11px;
+}
+.content-div > .broadcast-content-sch-timings[data-state=next-next-to-crnt-prog-timings] {
+    color: rgba(100, 100, 100, 1);
+    font-size: 11px;
+}
+
+.broadcast-schedule-container > .left-border-div {
+    display: inline-block;
+    height: 100%;
+    border-left: solid thin rgba(58, 58, 58, 1);
+    width: 1%;
+}
+
+.broadcast-schedule-container > .right-border-div {
+    display: inline-block;
+    height: 100%;
+    border-right: solid thin rgba(58, 58, 58, 1);
+    width: 1%;
+}
+
+.broadcast-schedule-container > .close-bar-button {
+    display: inline-block;
+    width: 10%;
+    height: 100%;
+    vertical-align: top;
+    text-align: center;
+    font-weight: bold;
+    font-style: normal;
+    font-size: x-large;
+    font-family: sans-serif;
+    line-height: 60px;
+}
+
+.close-bar-button > img {
+    margin-left: 10px;
+    width: 25px;
+    vertical-align: middle;
+    cursor: pointer;
+}

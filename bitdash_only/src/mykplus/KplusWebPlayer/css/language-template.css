@@ -1,0 +1,57 @@
+.central-content-popup > .top-menu-lang-details-container {
+    position: relative;
+    margin-right: auto;
+    margin-left: auto;
+    width: 287px;
+    height: 146px;
+    /*border: solid thin grey;*/
+    background: rgba(50, 50, 50, 0.9);
+}
+
+/* css related to language screen*/
+
+.central-content-popup .content-kp .outer-lang-vt-div {
+    width: 100%;
+    height: 45px;
+    text-align: center;
+    font-size: small;
+    line-height: 40px;
+    border-top: solid thin rgba(65,64,62,1);
+}
+
+.central-content-popup .content-kp .outer-lang-en-div {
+    width: 100%;
+    height: 45px;
+    text-align: center;
+    font-size: small;
+    line-height: 40px;
+    border-top: solid thin rgba(65,64,62,1);
+}
+
+.outer-lang-vt-div .veitnamese-text{
+    float: left;
+    margin-left: 34px;
+}
+
+.outer-lang-en-div .english-text{
+    float: left;
+    margin-left: 34px;
+}
+
+.central-content-popup .content-kp .lang-vt-div {
+    width: 80%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.central-content-popup .content-kp .lang-en-div {
+    width: 80%;
+    height: 100%;
+    cursor: pointer;
+}
+
+
+
+.lang-vt-div img {
+    vertical-align: middle;
+}

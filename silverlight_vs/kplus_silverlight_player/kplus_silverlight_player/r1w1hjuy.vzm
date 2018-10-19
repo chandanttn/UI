@@ -1,0 +1,403 @@
+﻿using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using System.Collections.ObjectModel;
+using Microsoft.Web.Media.SmoothStreaming;
+
+namespace kplus_silverlight_player
+{
+    public partial class MainPage : UserControl
+    {
+        private String playerLang = "";
+        private List<ListBoxItem> items;
+        private List<StaticChannel> channels;
+        private bool isChannelsListRendered = false;
+
+        private String playBttnImgBase64 = "iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo0RUNEOUE3NzA2MzhFNDExOTVDQUJBMzRGM0QyQzJGRSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpBRjFFRkZBMzM4MUExMUU0ODc2OEFDMTZCNjJBMTg3NSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpBRjFFRkZBMjM4MUExMUU0ODc2OEFDMTZCNjJBMTg3NSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChXaW5kb3dzKSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjFGOEM5REQ3MTgzOEU0MTE5NUNBQkEzNEYzRDJDMkZFIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjRFQ0Q5QTc3MDYzOEU0MTE5NUNBQkEzNEYzRDJDMkZFIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+W3PCxAAAAJdJREFUeNpi/P//PwMtARMDjcGoBQQBCzbBkydPgmJ+FhCnk2qgubk50T5IA2KQRTNpHUQUWURKHJBlETmRTJJFlKQioiyiRjLFaxHV8sHevXt9LCwsionKByQa/Ky6uvoWSRmNDIO3nDhxopcqFhBrMMkWkGow0RaQazBBCyg1GA5AVSY6hoL9QFxMqXmMo3XygFsAEGAAgxdpSzL2EYwAAAAASUVORK5CYII=";
+        private String playBttnImgBase64Highlighted = "";
+        private String pauseBttnImgBase64 = "iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo0RUNEOUE3NzA2MzhFNDExOTVDQUJBMzRGM0QyQzJGRSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpBRjFFRkZBNzM4MUExMUU0ODc2OEFDMTZCNjJBMTg3NSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpBRjFFRkZBNjM4MUExMUU0ODc2OEFDMTZCNjJBMTg3NSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChXaW5kb3dzKSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjFGOEM5REQ3MTgzOEU0MTE5NUNBQkEzNEYzRDJDMkZFIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjRFQ0Q5QTc3MDYzOEU0MTE5NUNBQkEzNEYzRDJDMkZFIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+4zd1gwAAAFtJREFUeNpi/P//PwMtARMDjcGoBQQBCzbBkydPYot5RiQ2Vnlzc3PyfWBhYbGfHPnRSB61YNSCUQsGgwWM2KpMRkZwwYmt8HJEYmPIA81yJMqC0TigqwUAAQYAMVQV9T4NOKIAAAAASUVORK5CYII=";
+        private String pauseBttnImgBase64Highlighted = "";
+        private String volumeUnmutedBttnImgBase64 = "iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo0RUNEOUE3NzA2MzhFNDExOTVDQUJBMzRGM0QyQzJGRSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo3MkRFM0EyQTM4MUExMUU0ODExM0I4RjRERDM1M0MyMSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo3MkRFM0EyOTM4MUExMUU0ODExM0I4RjRERDM1M0MyMSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChXaW5kb3dzKSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjFDOEM5REQ3MTgzOEU0MTE5NUNBQkEzNEYzRDJDMkZFIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjRFQ0Q5QTc3MDYzOEU0MTE5NUNBQkEzNEYzRDJDMkZFIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8++vWIoAAAAbZJREFUeNpi/P//PwMtARMDjcGoBeRZwMjIiBVPnz59JhD/B7GJBSzEKpw2bdpMIJUG5e4HWqQNpM8C8U4gXpuVlfUYphY5ZTKRYTgM6K9cuVLo7t27KW/fvl1TXFzsRVYc4DCcAeji5wcPHvTq7e3NfvTo0Wd2dvY+R0dHZ6KCCGjofyIsvgqkVgPxLKBlLjU1NUelpKTKgPzLQPyK5DjAArLu3Lmz4Pfv3wZAdjLQ8H4mJqZWINsOiNdQnEyBrj747t27ZmlpaSsg1xeIj4qKiooBaVOq5QMzM7O7nJycn4FMB7BhTEx/gZQaVSwAxoE9kMoG+mIXVMj679+/F6iZk6e9fPny7dy5c78C2QeA2P/BgwfXgfQtgqkIGL6grLofxE5JSVEzMjKSwqIGlNEWAPHJxsZGTSDNs27dumdA+jSxOdkRRMyZM4cBmImOKysrW6AFkSSQ2gJyOcjw1atXXwH6ACR1iOQgAmYmS2COPYEmfPHPnz8ZwKT6oaur69b+/WAPr0DOA/ByAx3jAiCfQDPhfqjQeiDuBOIQIBbDZiZJFsDsAVmATR82zDhaJw+4BQABBgBpPeawRfTpvgAAAABJRU5ErkJggg==";
+        private String volumneMutedBttnImgBase64 = "iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo0RUNEOUE3NzA2MzhFNDExOTVDQUJBMzRGM0QyQzJGRSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo3MkRFM0EyRTM4MUExMUU0ODExM0I4RjRERDM1M0MyMSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo3MkRFM0EyRDM4MUExMUU0ODExM0I4RjRERDM1M0MyMSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChXaW5kb3dzKSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjFDOEM5REQ3MTgzOEU0MTE5NUNBQkEzNEYzRDJDMkZFIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjRFQ0Q5QTc3MDYzOEU0MTE5NUNBQkEzNEYzRDJDMkZFIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+PIkq2QAAAPFJREFUeNpi/P//PwMtARMDjcGoBeRZwMjIiBVPnz59JhD/B7Gp7oNp06bNBFJpUO5+qlqAZjh144ASw0GABYeh/wdFKgJFOCji8SUASpPpLFDwFRcXHwfRd+/ePYGeACiyICsrKx1kqLKysgWI7u3t/QEU3kI1C0AJAGY4iAb6hAMo3EvNIEqDuRxmCVCsGCXTYiuuoREFDsuUlBQ1IyMjKbSgOQDU54ikbgvU5SDDfUByxPgApMhxzpw50tDIwwAgx4EMA+JeKLsX2XCigwgYBJa4LKFaPiDbEqjXUDABAArn/dj0YcOMo3XygFsAEGAAm9GsAgGLfR8AAAAASUVORK5CYII=";
+
+        public MainPage()
+        {
+            InitializeComponent();
+
+            //htmlFrame.Source = new Uri("http://www.c-sharpcorner.com/Default.aspx", UriKind.Absolute);
+
+
+            Application.Current.Host.Content.FullScreenChanged += onFullScreenChanged;
+
+            VideoContainer.SizeChanged += onVideoContainerSizeChaned;
+
+            var url = "http://usp.services.irdeto.com/kplus/1.2/service/GetAppConfigDirect?ApiKeyId=0&signature=0x0&file=config&attach=web";
+            Uri uri = new Uri(url);
+            var webClient = new System.Net.WebClient();
+
+            webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(asyncServerResponse_DownloadStringCompleted);
+            webClient.DownloadStringAsync(uri);
+
+            loadAndRenderLanguageSelectionGrid();
+            loadVideoControls();
+
+
+        }
+
+        private void loadAndRenderLanguageSelectionGrid()
+        {
+            if (playerLang.Equals("") || playerLang.Equals("ENG"))
+            {
+                playerLang = "ENG";
+                LangENGCheckBoxImage.Source = new BitmapImage(new Uri("images/check_radio_button.png", UriKind.Relative));
+                LangENGCheckBoxImage.Width = 15;
+                LangENGCheckBoxImage.Height = 15;
+                LangVTCheckBoxImage.Source = new BitmapImage(new Uri("images/uncheck_radio_button.png", UriKind.Relative));
+                LangVTCheckBoxImage.Width = 10;
+                LangVTCheckBoxImage.Height = 10;
+                LangDetailENGRowBorder.Background = new SolidColorBrush(Color.FromArgb(50, 180, 180, 180));
+                LangDetailVTRowBorder.Background = null;
+
+            }
+            else if (playerLang.Equals("VT"))
+            {
+                playerLang = "VT";
+                LangVTCheckBoxImage.Source = new BitmapImage(new Uri("images/check_radio_button.png", UriKind.Relative));
+                LangVTCheckBoxImage.Width = 15;
+                LangVTCheckBoxImage.Height = 15;
+                LangENGCheckBoxImage.Source = new BitmapImage(new Uri("images/uncheck_radio_button.png", UriKind.Relative));
+                LangENGCheckBoxImage.Width = 10;
+                LangENGCheckBoxImage.Height = 10;
+                LangDetailVTRowBorder.Background = new SolidColorBrush(Color.FromArgb(50, 180, 180, 180));
+                LangDetailENGRowBorder.Background = null;
+            }
+        }
+
+        private void loadVideoControls()
+        {
+            var pBytes = Convert.FromBase64String(playBttnImgBase64);
+            var pStream = new MemoryStream(pBytes);
+            BitmapImage playBI = new BitmapImage();
+            playBI.SetSource(pStream);
+            playPauseBttn.Source = playBI;
+
+            var vBytes = Convert.FromBase64String(volumeUnmutedBttnImgBase64);
+            var vStream = new MemoryStream(vBytes);
+            BitmapImage volumeBI = new BitmapImage();
+            volumeBI.SetSource(vStream);
+            volumeBttn.Source = volumeBI;
+
+        }
+
+
+
+        private void onVideoContainerSizeChaned(object sender, SizeChangedEventArgs e)
+        {
+            CompositeTransform cTranform = new CompositeTransform();
+            cTranform.TranslateX = VideoContainer.ActualWidth - slideLeftNextButtonGrid.ActualWidth;
+            slideLeftEPGGrid.RenderTransform = cTranform;
+
+
+            LoadAndRenderChannelsList();
+
+            LoadAndRenderEPG();
+
+
+        }
+
+        private void LoadAndRenderEPG()
+        {
+            slideLeftEPGColumn.Clip = new RectangleGeometry()
+            {
+                Rect = new Rect(0, 0, slideLeftEPGColumn.ActualWidth, slideLeftEPGColumn.ActualHeight)
+            };
+
+            slideLeftEPGAnim.From = 0;
+        }
+
+        private void LoadAndRenderChannelsList()
+        {
+
+            channelsScrollStoryBoard.Stop();
+
+            CompositeTransform cTranform = new CompositeTransform();
+            cTranform.TranslateX = 0;
+            channelListCanvasGrid.RenderTransform = cTranform;
+
+            channelsScrollAnim.From = 0;
+
+            channelListWrapperGrid.Clip = new RectangleGeometry()
+            {
+                Rect = new Rect(0, 0, channelListWrapperGrid.ActualWidth, channelListWrapperGrid.ActualHeight)
+            };
+
+
+            if (!isChannelsListRendered)
+            {
+
+                channelListCanvasGrid.Children.Add(new Image { Name = "channelOrder1", HorizontalAlignment = System.Windows.HorizontalAlignment.Left, VerticalAlignment = System.Windows.VerticalAlignment.Center, Width = 130, Source = new BitmapImage(new Uri("images/channels_images/c1.png", UriKind.Relative)) });
+                channelListCanvasGrid.Children.Add(new Image { Name = "channelOrder2", Margin = new Thickness(115, 0, 0, 0), HorizontalAlignment = System.Windows.HorizontalAlignment.Left, Width = 130, Source = new BitmapImage(new Uri("images/channels_images/c2.png", UriKind.Relative)) });
+                channelListCanvasGrid.Children.Add(new Image { Name = "channelOrder3", Margin = new Thickness(115 * 2, 0, 0, 0), HorizontalAlignment = System.Windows.HorizontalAlignment.Left, VerticalAlignment = System.Windows.VerticalAlignment.Center, Width = 130, Source = new BitmapImage(new Uri("images/channels_images/c3.png", UriKind.Relative)) });
+                channelListCanvasGrid.Children.Add(new Image { Name = "channelOrder4", Margin = new Thickness(115 * 3, 0, 0, 0), HorizontalAlignment = System.Windows.HorizontalAlignment.Left, VerticalAlignment = System.Windows.VerticalAlignment.Center, Width = 130, Source = new BitmapImage(new Uri("images/channels_images/c4.png", UriKind.Relative)) });
+                channelListCanvasGrid.Children.Add(new Image { Name = "channelOrder5", Margin = new Thickness(115 * 4, 0, 0, 0), HorizontalAlignment = System.Windows.HorizontalAlignment.Left, VerticalAlignment = System.Windows.VerticalAlignment.Center, Width = 130, Source = new BitmapImage(new Uri("images/channels_images/c2.png", UriKind.Relative)) });
+                channelListCanvasGrid.Children.Add(new Image { Name = "channelOrder6", Margin = new Thickness(115 * 5, 0, 0, 0), HorizontalAlignment = System.Windows.HorizontalAlignment.Left, VerticalAlignment = System.Windows.VerticalAlignment.Center, Width = 130, Source = new BitmapImage(new Uri("images/channels_images/c3.png", UriKind.Relative)) });
+                channelListCanvasGrid.Children.Add(new Image { Name = "channelOrder7", Margin = new Thickness(115 * 6, 0, 0, 0), HorizontalAlignment = System.Windows.HorizontalAlignment.Left, VerticalAlignment = System.Windows.VerticalAlignment.Center, Width = 130, Source = new BitmapImage(new Uri("images/channels_images/c2.png", UriKind.Relative)) });
+                channelListCanvasGrid.Children.Add(new Image { Name = "channelOrder8", Margin = new Thickness(115 * 7, 0, 0, 0), HorizontalAlignment = System.Windows.HorizontalAlignment.Left, VerticalAlignment = System.Windows.VerticalAlignment.Center, Width = 130, Source = new BitmapImage(new Uri("images/channels_images/c1.png", UriKind.Relative)) });
+                channelListCanvasGrid.Children.Add(new Image { Name = "channelOrder9", Margin = new Thickness(115 * 8, 0, 0, 0), HorizontalAlignment = System.Windows.HorizontalAlignment.Left, VerticalAlignment = System.Windows.VerticalAlignment.Center, Width = 130, Source = new BitmapImage(new Uri("images/channels_images/c4.png", UriKind.Relative)) });
+
+                isChannelsListRendered = true;
+            }
+        }
+
+        private void onFullScreenChanged(object sender, EventArgs e)
+        {
+            if (Application.Current.Host.Content.IsFullScreen)
+            {
+                topChannelBar.Visibility = Visibility.Collapsed;
+                SmoothPlayer.Height = Double.NaN;
+                SmoothPlayer.Margin = new Thickness(0, 0, 0, 0);
+                OverlayRoot.Height = Double.NaN;
+                OverlayRoot.Margin = new Thickness(0, 0, 0, 0);
+            }
+            else
+            {
+                topChannelBar.Visibility = Visibility.Visible;
+                SmoothPlayer.Height = 550;
+                SmoothPlayer.Margin = new Thickness(0, 60, 0, 0);
+                OverlayRoot.Height = 550;
+                OverlayRoot.Margin = new Thickness(0, 60, 0, 0);
+            }
+        }
+
+        private void asyncServerResponse_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        {
+
+        }
+
+        private void fullscreen_toggle_btn_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Host.Content.IsFullScreen = !Application.Current.Host.Content.IsFullScreen;
+        }
+
+        private void topbar_label_lang_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            TopMenuLangDetailBorder.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        private void onLangDetailEngClick(object sender, MouseButtonEventArgs e)
+        {
+            playerLang = "ENG";
+            LangENGCheckBoxImage.Source = new BitmapImage(new Uri("images/check_radio_button.png", UriKind.Relative));
+            LangENGCheckBoxImage.Width = 15;
+            LangENGCheckBoxImage.Height = 15;
+            LangVTCheckBoxImage.Source = new BitmapImage(new Uri("images/uncheck_radio_button.png", UriKind.Relative));
+            LangVTCheckBoxImage.Width = 10;
+            LangVTCheckBoxImage.Height = 10;
+            LangDetailENGRowBorder.Background = new SolidColorBrush(Color.FromArgb(50, 180, 180, 180));
+            LangDetailVTRowBorder.Background = null;
+        }
+
+        private void onLangDetailVTClick(object sender, MouseButtonEventArgs e)
+        {
+            playerLang = "VT";
+            LangVTCheckBoxImage.Source = new BitmapImage(new Uri("images/check_radio_button.png", UriKind.Relative));
+            LangVTCheckBoxImage.Width = 15;
+            LangVTCheckBoxImage.Height = 15;
+            LangENGCheckBoxImage.Source = new BitmapImage(new Uri("images/uncheck_radio_button.png", UriKind.Relative));
+            LangENGCheckBoxImage.Width = 10;
+            LangENGCheckBoxImage.Height = 10;
+            LangDetailVTRowBorder.Background = new SolidColorBrush(Color.FromArgb(50, 180, 180, 180));
+            LangDetailENGRowBorder.Background = null;
+
+        }
+
+        private void onLangDetailContainerCloseClick(object sender, MouseButtonEventArgs e)
+        {
+            TopMenuLangDetailBorder.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+
+        private void onChannelLstLeftBttnClick(object sender, MouseButtonEventArgs e)
+        {
+
+            if (channelListCanvasGrid.ActualWidth > channelListWrapperGrid.ActualWidth)
+            {
+
+                if (channelsScrollStoryBoard.GetCurrentState() != ClockState.Stopped)
+                {
+
+                    if (channelsScrollAnim.To.Value < 0)
+                    {
+                        channelsScrollStoryBoard.Stop();
+                        channelsScrollAnim.From = channelsScrollAnim.To;
+                        channelsScrollAnim.To = channelsScrollAnim.To + 100;
+                        channelsScrollStoryBoard.Begin();
+                    }
+
+                }
+                else
+                {
+
+                    channelsScrollAnim.To = 100;
+                    channelsScrollStoryBoard.Begin();
+
+
+                }
+            }
+
+        }
+
+        private void onChannelLstRightBttnClick(object sender, MouseButtonEventArgs e)
+        {
+
+            if (channelListCanvasGrid.ActualWidth > channelListWrapperGrid.ActualWidth)
+            {
+                if (channelsScrollStoryBoard.GetCurrentState() != ClockState.Stopped)
+                {
+                    if (Math.Abs(channelsScrollAnim.To.Value) < (channelListCanvasGrid.ActualWidth - channelListWrapperGrid.ActualWidth))
+                    {
+                        channelsScrollStoryBoard.Stop();
+                        channelsScrollAnim.From = channelsScrollAnim.To;
+                        channelsScrollAnim.To = channelsScrollAnim.To - 100;
+                        channelsScrollStoryBoard.Begin();
+                    }
+
+                }
+                else
+                {
+                    channelsScrollAnim.To = -100;
+                    channelsScrollStoryBoard.Begin();
+                }
+            }
+        }
+
+        private void onSlideLeftBarNxtBtnClick(object sender, MouseButtonEventArgs e)
+        {
+
+            slideLeftAnim.To = 0;
+            slideLeftStoryBoard.Begin();
+        }
+
+        private void onSlideLeftBarCloseBttnClick(object sender, MouseButtonEventArgs e)
+        {
+            if (slideLeftStoryBoard.GetCurrentState() != ClockState.Stopped)
+            {
+                slideLeftStoryBoard.Completed += slideLeftNextCloseBttnAdj;
+            }
+            else
+            {
+                slideRightStoryBoard.Begin();
+            }
+        }
+
+
+        private void slideLeftNextCloseBttnAdj(object sender, EventArgs e)
+        {
+            slideLeftStoryBoard.Completed -= slideLeftNextCloseBttnAdj;
+            slideRightAnim.To = VideoContainer.ActualWidth - slideLeftNextButtonGrid.ActualWidth;
+            slideRightStoryBoard.Begin();
+        }
+
+        private void onEPGScrollLeftBttnClick(object sender, MouseButtonEventArgs e)
+        {
+            if (slideLeftEPGContentGrid.ActualWidth > slideLeftEPGColumn.ActualWidth)
+            {
+
+                if (slideLeftEPGStoryBoard.GetCurrentState() != ClockState.Stopped)
+                {
+
+                    if (slideLeftEPGAnim.To.Value < 0)
+                    {
+                        slideLeftEPGStoryBoard.Stop();
+                        slideLeftEPGAnim.From = slideLeftEPGAnim.To;
+                        slideLeftEPGAnim.To = slideLeftEPGAnim.To + 100;
+                        slideLeftEPGStoryBoard.Begin();
+                    }
+
+                }
+                else
+                {
+
+                    slideLeftEPGAnim.To = 100;
+                    slideLeftEPGStoryBoard.Begin();
+
+
+                }
+            }
+        }
+
+        private void onEPGScrollRightBttnClick(object sender, MouseButtonEventArgs e)
+        {
+            if (slideLeftEPGContentGrid.ActualWidth > slideLeftEPGColumn.ActualWidth)
+            {
+                if (slideLeftEPGStoryBoard.GetCurrentState() != ClockState.Stopped)
+                {
+                    if (Math.Abs(slideLeftEPGAnim.To.Value) < (slideLeftEPGContentGrid.ActualWidth - slideLeftEPGColumn.ActualWidth))
+                    {
+                        slideLeftEPGStoryBoard.Stop();
+                        slideLeftEPGAnim.From = slideLeftEPGAnim.To;
+                        slideLeftEPGAnim.To = slideLeftEPGAnim.To - 100;
+                        slideLeftEPGStoryBoard.Begin();
+                    }
+
+                }
+                else
+                {
+                    slideLeftEPGAnim.To = -100;
+                    slideLeftEPGStoryBoard.Begin();
+                }
+            }
+        }
+
+        private void onPlayPauseToggleBtnClick(object sender, MouseButtonEventArgs e)
+        {
+            
+            switch (SmoothPlayer.CurrentState)
+            {
+                case SmoothStreamingMediaElementState.Playing:
+                    SmoothPlayer.Pause();
+                    var pBytes = Convert.FromBase64String(playBttnImgBase64);
+                    var pStream = new MemoryStream(pBytes);
+                    BitmapImage pBI = new BitmapImage();
+                    pBI.SetSource(pStream);
+                    playPauseBttn.Source = pBI;
+                    break;
+
+                case SmoothStreamingMediaElementState.Paused:
+                    SmoothPlayer.Play();
+                    pBytes = Convert.FromBase64String(pauseBttnImgBase64);
+                    pStream = new MemoryStream(pBytes);
+                    pBI = new BitmapImage();
+                    pBI.SetSource(pStream);
+                    playPauseBttn.Source = pBI;
+                    break;
+
+                case SmoothStreamingMediaElementState.Stopped:
+                    SmoothPlayer.Play();
+                    pBytes = Convert.FromBase64String(pauseBttnImgBase64);
+                    pStream = new MemoryStream(pBytes);
+                    pBI = new BitmapImage();
+                    pBI.SetSource(pStream);
+                    playPauseBttn.Source = pBI;
+                    break;
+            }
+        }
+
+        private void onVolumeToggleBtnClick(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+
+    }
+}

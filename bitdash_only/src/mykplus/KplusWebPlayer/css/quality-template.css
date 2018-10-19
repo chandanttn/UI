@@ -1,0 +1,194 @@
+.central-content-popup > .top-menu-quality-details-container {
+    position: relative;
+    margin-right: auto;
+    margin-left: auto;
+    width: 585px;
+    height: 364px;
+    /*border: solid thin grey;*/
+    background: rgba(50, 50, 50, 0.9);
+}
+
+.content-kp > .video-quality-title {
+    position: absolute;
+    top: 10px;
+    margin-right: 5%;
+    margin-left: 5%;
+    width: 90%;
+    color: white;
+    text-align: center;
+    font-size: 16px;
+}
+
+.content-kp > .fps {
+    position: absolute;
+    top: 36px;
+    left: 10px;
+    color: grey;
+    font-size: smaller;
+}
+
+.content-kp > .stream-bandwidth {
+    position: absolute;
+    top: 34px;
+    right: 19px;
+    color: grey;
+    font-size: smaller;
+}
+
+#chart-container {
+    position: relative !important;
+    width: 100% !important;
+    /*height: 208px;*/
+}
+
+#chart-container > .bitrate-text {
+    position: absolute !important;
+    top: 0 !important;
+    left: 10px !important;
+    font-size: small !important;
+    /*text-align: right;*/
+    /*display: flex;*/
+    width: 60px !important;
+}
+
+.bitrate-text > div {
+    height: 22px !important;
+    overflow: hidden !important;
+}
+
+#realtime-bitrate-chart {
+    position: absolute !important;
+    top: 5px !important;
+    left: 66px !important;
+    width: 500px !important;
+}
+
+#realtime-bitrate-chart > .bar {
+    width: 100% !important;
+    height: 7px !important;
+    background-color: rgba(153, 153, 153, 1) !important;
+    display: flex !important;
+}
+
+#realtime-bitrate-chart > .spacebar {
+    width: 100% !important;
+    height: 15px !important;
+    display: flex !important;
+}
+
+#realtime-bitrate-chart .b-hr {
+    display: inline-flex !important;
+    /*margin-left: -4px;*/
+    width: 46px !important;
+    height: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.content-kp > .upper-line-bar {
+    margin-top: 8px;
+    margin-bottom: 12px;
+    margin-left: 10px;
+    width: 556px;
+    height: 7px;
+    background: rgba(153, 153, 153, 1)
+}
+
+.content-kp > .lower-line-bar {
+    position: relative;
+    /*bottom: 60px;*/
+    left: 10px;
+    width: 556px;
+    height: 7px;
+    background-color: rgba(153, 153, 153, 1);
+}
+
+.vid-buffer-vid-band-cont {
+    margin-top: 17px;
+}
+
+.vid-buffer-vid-band-cont > .video-buffer-duration-container {
+    position: absolute;
+    /*bottom: -17px;*/
+    left: 10px;
+    width: 260px;
+    font-size: small;
+    float: left;
+}
+
+.video-buffer-duration-container > .video-buffer-progressbar {
+    margin-top: 3px;
+    margin-bottom: 3px;
+    width: 200px;
+    height: 8px;
+    background-color: rgba(153, 153, 153, 1);
+}
+
+.video-buffer-progressbar > .buffer-inner-bars-container {
+    /*margin-left: 4px;*/
+    width: inherit;
+    height: inherit;
+    display: flex !important;
+}
+
+.buffer-inner-bars-container > div {
+    display: inline-flex;
+    /*margin-left: -4px;*/
+    width: 5%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.vid-buffer-vid-band-cont > .bandwidth-limit-container {
+    position: absolute;
+    right: 19px;
+    /*bottom: -17px;*/
+    width: 200px;
+    font-size: small;
+    float: right;
+}
+
+.bandwidth-inner-bars-container > .bandwidth-backgrnd-bar {
+    position: absolute;
+    width:inherit;
+    height: inherit;
+    z-index: 0;
+}
+
+.bandwidth-inner-bars-container > .bandwidth-clikable-bar {
+    position: absolute;
+    width:inherit;
+    height: inherit;
+    z-index: 2;
+}
+
+.bandwidth-inner-bars-container > .bandwidth-prgrss-bar {
+    position: absolute;
+    z-index: 1;
+    width:0;
+    height: inherit;
+    background-color: white;
+}
+
+.bandwidth-limit-container > .bandwidth-progressbar-container {
+    margin-top: 3px;
+    margin-bottom: 3px;
+    width: 200px;
+    height: 8px;
+    background-color: rgba(153, 153, 153, 1);
+}
+
+.bandwidth-progressbar-container > .bandwidth-inner-bars-container {
+   /* margin-left: 4px;*/
+    position: relative;
+    width: inherit;
+    height: inherit;
+}
+
+.bandwidth-inner-bars-container > div {
+    display: inline-block;
+    /*margin-left: -4px;*/
+    width: 14.2%;
+    height: 100%;
+
+    cursor: pointer;
+}

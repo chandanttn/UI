@@ -1,6 +1,6 @@
 {
   "name": "KPLUS",
-  "version": "1.4.12",
+  "version": "1.4.17c",
   "description": "kplus web player",
   "main": "/src/index.html",
   "scripts": {

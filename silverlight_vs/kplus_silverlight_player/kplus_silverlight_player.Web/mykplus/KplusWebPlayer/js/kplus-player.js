@@ -11730,7 +11730,7 @@ module.exports = {
 
     channelsList: null,
     crntPlayingChannelIndex: -1,
-    buildVersion: '1.4.1.90',
+    buildVersion: '1.4.13',
     isFingerPrintEnabled: 'true'
 };
 

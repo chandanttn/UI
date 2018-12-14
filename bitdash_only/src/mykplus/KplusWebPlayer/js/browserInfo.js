@@ -1,5 +1,3 @@
-/** browser+version detection
- *  from http://stackoverflow.com/questions/5916900/how-can-you-detect-the-version-of-a-browser */
 browserInfo = (function () {
     var ua = navigator.userAgent,
         tem, M = ua.match(/(edge|opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];

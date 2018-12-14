@@ -43,7 +43,7 @@ namespace kplus_silverlight_player
 
         private long _playerBitRate = 0;
 
-        // in seconds
+        
         private double _playerFPS = -1;
 
         private String _playerLang = "vie";
@@ -252,7 +252,7 @@ namespace kplus_silverlight_player
             set { _mouseCursorDormantCounter = value; }
         }
 
-        // in seconds
+        
         public long PlayerBitRate
         {
             get { return _playerBitRate; }

@@ -17,9 +17,7 @@ namespace kplus_silverlight_player
             _mediaElementName = mediaElementName;
         }
 
-        // The default implementation of OnAcquireLicense calls into the MediaElement to acquire a
-        //  license. It is called when the Media pipeline is building a topology and will be raised
-        // before MediaOpened is raised.
+        
         protected override void OnAcquireLicense(System.IO.Stream licenseChallenge, Uri licenseServerUri)
         {
             System.Diagnostics.Debug.WriteLine("+++++++++++++++++++++++++");
@@ -27,8 +25,7 @@ namespace kplus_silverlight_player
             StreamReader sr = new StreamReader(licenseChallenge);
 
             challengeString = sr.ReadToEnd();
-            // Need to resolve the URI for the License Server -- make sure it is correct
-            // and store that correct URI as resolvedLicenseServerUri.
+            
             Uri resolvedLicenseServerUri;
             if (LicenseServerUriOverride == null)
             {
@@ -49,19 +46,17 @@ namespace kplus_silverlight_player
             else
                 resolvedLicenseServerUri = LicenseServerUriOverride;
             bool registerResult = WebRequest.RegisterPrefix("http://", WebRequestCreator.ClientHttp);
-            // Make a HttpWebRequest to the License Server.
+            
             HttpWebRequest request = WebRequest.Create(resolvedLicenseServerUri) as HttpWebRequest;
             //HttpWebRequest request = (HttpWebRequest)System.Net.Browser.WebRequestCreator.ClientHttp.Create(resolvedLicenseServerUri);
 
             request.Method = "POST";
-            // Set ContentType through property
+            
             request.ContentType = "application/xml";
-            //  ADD REQUIRED HEADERS.
-            // The headers below are necessary so that error handling and redirects are handled
-            // properly via the Silverlight client.
+            
             request.Headers["msprdrm_server_redirect_compat"] = "false";
             request.Headers["msprdrm_server_exception_compat"] = "false";
-            //  Initiate getting request stream
+            
             IAsyncResult asyncResult = request.BeginGetRequestStream(new AsyncCallback(RequestStreamCallback), request);
         }
 
@@ -70,17 +65,17 @@ namespace kplus_silverlight_player
             base.OnCancel();
         }
 
-        // This method is called when the asynchronous operation completes.
+       
         private void RequestStreamCallback(IAsyncResult ar)
         {
             HttpWebRequest request = ar.AsyncState as HttpWebRequest;
-            // populate request stream
+            
             request.ContentType = "text/xml";
             Stream requestStream = request.EndGetRequestStream(ar);
             StreamWriter streamWriter = new StreamWriter(requestStream, System.Text.Encoding.UTF8);
             streamWriter.Write(challengeString);
             streamWriter.Close();
-            // Make async call for response
+            
             request.BeginGetResponse(new AsyncCallback(ResponseCallback), request);
         }
 

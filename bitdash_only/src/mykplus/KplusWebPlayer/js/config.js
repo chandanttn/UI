@@ -1,7 +1,6 @@
 
 
 module.exports = {
-    
     flags: {
         isStartoverMode: false,
         isChromeBrowser: false,
@@ -52,5 +51,6 @@ module.exports = {
     channelsList: null,
     crntPlayingChannelIndex: -1,
     buildVersion: '@@project-version-placeholder',
-    isFingerPrintEnabled: '@@fingerPrintSwitch'
+    isFingerPrintEnabled: '@@fingerPrintSwitch',
+    today:5
 };

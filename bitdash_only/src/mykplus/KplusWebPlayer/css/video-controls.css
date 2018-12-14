@@ -53,7 +53,7 @@
     height: 100%;
     border: none;
     background: center center/contain no-repeat;
-    background-image: url("/mykplus/KplusWebPlayer/img/buttons/info-player@3x.png");
+    background-image: url("/ottservices/KplusWebPlayer/img/buttons/info-player@3x.png");
     background-position: center center;
     background-size: 15px 15px;
     cursor: pointer;
@@ -61,13 +61,13 @@
 
 .custom-video-controls-w button[data-state=do-fullscreen] {
     border-right: 0;
-    background-image: url("/mykplus/KplusWebPlayer/img/buttons/fullscreen_player.png");
+    background-image: url("/ottservices/KplusWebPlayer/img/buttons/fullscreen_player.png");
     background-size: 18px 18px;
 }
 
 .custom-video-controls-w button[data-state=do-halfscreen] {
     border-right: 0;
-    background-image: url("/mykplus/KplusWebPlayer/img/buttons/exit_fullscreen.png");
+    background-image: url("/ottservices/KplusWebPlayer/img/buttons/exit_fullscreen.png");
 }
 
 .volume-cntrl > button{
@@ -82,11 +82,11 @@
 }
 
 .volume-cntrl > button[data-state=volume] {
-    background-image: url("/mykplus/KplusWebPlayer/img/buttons/speaker_button.png");
+    background-image: url("/ottservices/KplusWebPlayer/img/buttons/speaker_button.png");
 }
 
 .volume-cntrl > button[data-state=mute] {
-    background-image: url("/mykplus/KplusWebPlayer/img/buttons/volume_mute.png");
+    background-image: url("/ottservices/KplusWebPlayer/img/buttons/volume_mute.png");
 }
 
 .custom-video-controls-w .progress-bar-overlayed{

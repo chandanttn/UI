@@ -60,10 +60,7 @@ namespace kplus_silverlight_player
             mainPage.onCSMheartbeatNOKrcvd(responseStr);
         }
 
-        /*
-         * CSM Refactor
-         * show CSM Error
-         */
+        
         [ScriptableMember()]
         public void showCSMError()
         {

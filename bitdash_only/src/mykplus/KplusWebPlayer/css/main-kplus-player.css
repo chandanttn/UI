@@ -1,26 +1,26 @@
 
 @font-face {
     font-family: OpenSans;
-    src: url('/mykplus/KplusWebPlayer/fonts//OpenSans-Regular.ttf') format('truetype');
+    src: url('/ottservices/KplusWebPlayer/fonts//OpenSans-Regular.ttf') format('truetype');
 }
 
 @font-face {
     font-weight: bold;
     font-family: OpenSans;
-    src: url('/mykplus/KplusWebPlayer/fonts//OpenSans-Bold.ttf') format('truetype');
+    src: url('/ottservices/KplusWebPlayer/fonts//OpenSans-Bold.ttf') format('truetype');
 }
 
 @font-face {
     font-style: italic;
     font-family: OpenSans;
-    src: url('/mykplus/KplusWebPlayer/fonts//OpenSans-Italic.ttf') format('truetype');
+    src: url('/ottservices/KplusWebPlayer/fonts//OpenSans-Italic.ttf') format('truetype');
 }
 
 @font-face {
     font-weight: bold;
     font-style: italic;
     font-family: OpenSans;
-    src: url('/mykplus/KplusWebPlayer/fonts//OpenSans-BoldItalic.ttf') format('truetype');
+    src: url('/ottservices/KplusWebPlayer/fonts//OpenSans-BoldItalic.ttf') format('truetype');
 }
 
 #video-container {
@@ -43,7 +43,7 @@
     width: 100%;
     height: 100%;
     background: center center/contain no-repeat;
-    background-image: url("/mykplus/KplusWebPlayer/img/video-spin-loader.gif");
+    background-image: url("/ottservices/KplusWebPlayer/img/video-spin-loader.gif");
     background-position: center center;
     background-size: auto;
 }
@@ -52,7 +52,7 @@
     width: 100%;
     height: 100%;
     background: center center/contain no-repeat;
-    background-image: url("/mykplus/KplusWebPlayer/img/video-spin-loader.gif");
+    background-image: url("/ottservices/KplusWebPlayer/img/video-spin-loader.gif");
     background-position: center center;
     background-size: auto;
 }

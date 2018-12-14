@@ -25,7 +25,7 @@ namespace kplus_silverlight_player
         private bool isTimerMessageVisible = false;
         private bool isGlobalPlayerConfigsLoaded = false;
         private int counter = 0;
-        //  scriptable class -- used for interfacing with browser Dom/javascript
+        
         private KpSLappClass kpScriptable;
 
         // timer schedulers
@@ -176,7 +176,7 @@ namespace kplus_silverlight_player
             }
             else
             {
-                // clearing previous tranform effect
+                
                 CompositeTransform cTranform = new CompositeTransform();
                 cTranform.TranslateX = 0;
                 startoverBarEPGCanvas.RenderTransform = cTranform;
@@ -318,7 +318,7 @@ namespace kplus_silverlight_player
             if (!data.Equals("error"))
             {
                 viewModel.GetChannelsRespRootObj = JsonConvert.DeserializeObject<GetChannelsJSON.RootObject>(data);
-                
+
                 LoadAndRenderChannelsList();
 
                 if (viewModel.CrntPlayingChannel == null)
@@ -706,42 +706,38 @@ namespace kplus_silverlight_player
                                 }
                                 else if (stream.Type == MediaStreamType.Audio)
                                 {
-                                    // step 1: check if the user has selected the vietnamese language (the language tag would either contain 'vie' or 'vi')
-
-                                    // step 2: check if the user has selected the original language (the language tag would 'eng', 'en' or it isn't)
-
-                                    //check if vietnamese 
+                                     
                                     if (cmbSelectedVal == "vi" || cmbSelectedVal == "vie")
                                     {
-                                        //check if language attr available
+                                        
                                         if (stream.Attributes.ContainsKey("Language"))
                                         {
-                                            //if vie or vi select stream
+                                            
                                             if (stream.Attributes["Language"].Equals("vie") || stream.Attributes["Language"].Equals("vi"))
                                             {
                                                 selectedStreams.Add(stream);
                                             }
                                         }
                                     }
-                                        //if not vietnamese 
+                                    
                                     else
                                     {
-                                        //check if language attr exists
+                                        
                                         if (stream.Attributes.ContainsKey("Language"))
                                         {
-                                            //check for 'mul', 'eng', 'en' and select stream
+                                            
                                             if (stream.Attributes["Language"].Equals("eng") || stream.Attributes["Language"].Equals("en") || stream.Attributes["Language"].Equals("mul"))
                                             {
                                                 selectedStreams.Add(stream);
                                             }
                                         }
-                                            //if no 'Language' attr is available then select the stream
+                                        
                                         else
                                         {
                                             selectedStreams.Add(stream);
                                         }
                                     }
-                                    
+
                                 }
                             }
                             segment.SelectStreamsAsync(selectedStreams);
@@ -774,7 +770,7 @@ namespace kplus_silverlight_player
                 }
             }
 
-            // duplicate labels.
+            
             LangDetailLabel.Content = ((System.Windows.Controls.Label)listOfLabelCntrols[0]).Content;
             brdcastSchedInfo.Text = infoInfoLabel.Content.ToString();
             brdcastSchedBrdcastSched.Text = infoBroadcastSchLabel.Content.ToString();
@@ -791,7 +787,7 @@ namespace kplus_silverlight_player
 
         private void channelChanged(int selectedChannelOrderNo)
         {
-            
+
             if (csmRescheduleTimer.IsEnabled)
             {
                 csmRescheduleTimer.Stop();
@@ -817,10 +813,7 @@ namespace kplus_silverlight_player
             var streamUrl = getChannelStreamUrl(selectedChannelOrderNo);
 
             HtmlPage.Window.Eval("clearTimeout(_wgsbneq.CSMheartBeatModule.CSMheartbeatReqTimeoutId)");
-            /*
-               CSM Refactor
-               onCSMPlay
-           */
+            
             HtmlPage.Window.Eval("_wgsbneq.CSMheartBeatModule.onCSMPlayChannelChange()");
             if (!viewModel.isPlyrDefaultChnl)
             {
@@ -834,18 +827,14 @@ namespace kplus_silverlight_player
 
             adjustStartoverBarWhenChnlSwitched();
 
-            //adjustVideoControlsStartoverBtn();
+            
 
             viewModel.currentProgram = null;
             HtmlPage.Window.Eval("_wgsbneq.config.crntPlayingChannelIndex = " + selectedChannelOrderNo + ";");
 
             if (viewModel.isPlyrDefaultChnl)
             {
-                /*
-                 * CSM Refactor
-                 * On csm Play
-                */
-                //HtmlPage.Window.Eval("_wgsbneq.CSMheartBeatModule.onCSMPlayLiveTVOnly()");
+                
                 HtmlPage.Window.Eval("_wgsbneq.CSMheartBeatModule.sndCSMheartbeatPlayReq()");
             }
             else
@@ -919,8 +908,8 @@ namespace kplus_silverlight_player
             HtmlPage.Window.Eval("_wgsbneq.gAnalyticsModule.fireGoogleAnalyticsEvnt('Channel','Play', '" + channelTitle + "')");
 
             string startoverLength = getCrntChnlStartOverLength();
-            
-           // HtmlPage.Window.Eval("_wgsbneq.onCSMPlayLiveTVOnly()");
+
+            // HtmlPage.Window.Eval("_wgsbneq.onCSMPlayLiveTVOnly()");
             //HtmlPage.Window.Eval("_wgsbneq.CSMheartBeatModule.onCSMPlayLiveTVOnly()");
         }
 
@@ -1277,7 +1266,7 @@ namespace kplus_silverlight_player
                 {
                     for (int j = 0; j < 10; j++)
                     {
-                        var grid1 = (Border)VideoContainer.FindName("bGrid_r" + i + "c" + j);    // chart horizontal mark container
+                        var grid1 = (Border)VideoContainer.FindName("bGrid_r" + i + "c" + j);   
 
                         if (grid1 != null)
                         {
@@ -1680,7 +1669,22 @@ namespace kplus_silverlight_player
             if (!string.IsNullOrEmpty(((ManualLicenseAcquirer)SmoothPlayer.LicenseAcquirer).ErrorMessage))
             {
             }
-
+            string errorMessage = ((ManualLicenseAcquirer)SmoothPlayer.LicenseAcquirer).ErrorMessage;
+            if (errorMessage != null && errorMessage.Length > 0 && errorMessage != "undefined")
+            {
+                //HtmlPage.Window.Eval("_wgsbneq.APIcallerModule.dummyLog(" + str + ")");
+                string errorMsg = (string)HtmlPage.Window.Eval("_wgsbneq.MultiLangSupportModule.getErrorMsg(1,_wgsbneq.config.userPrefLanguage)");
+                string errorCode = "PLR-106";
+                viewModel.plyrErrMsgIndex = 1;
+                if (!viewModel.currentProgram.AdditionalInfo.OTTEnabled.Equals("false"))
+                {
+                    if (!String.IsNullOrEmpty(errorMsg))
+                    {
+                        displayPlyrErrorMsg(errorMsg, true, errorCode);
+                        viewModel.isLicenseErrorDisplayed = true;
+                    }
+                }
+            }
             try
             {
                 //if (e.Error.Message.Contains("6002"))
@@ -1882,10 +1886,7 @@ namespace kplus_silverlight_player
                     pBI.SetSource(pStream);
                     playPauseBttn.Source = pBI;
                     HtmlPage.Window.Eval("_wgsbneq.CSMheartBeatModule.sndCSMheartbeatPauseReq()");
-                    /*
-                        CSM Refactor
-                        Dispose
-                    */
+                   
                     //HtmlPage.Window.Eval("_wgsbneq.Dispose()");
                     HtmlPage.Window.Eval("_wgsbneq.CSMheartBeatModule.Dispose()");
                 }
@@ -1982,10 +1983,7 @@ namespace kplus_silverlight_player
                     pBI.SetSource(pStream);
                     playPauseBttn.Source = pBI;
 
-                    /*
-                        CSM Refactor
-                        onCSMPlay
-                    */
+                    
                     //HtmlPage.Window.Eval("_wgsbneq.onCSMPlay()");
                     HtmlPage.Window.Eval("_wgsbneq.CSMheartBeatModule.onCSMPlay()");
                     HtmlPage.Window.Eval("_wgsbneq.CSMheartBeatModule.sndCSMheartbeatPlayReq()");
@@ -1995,30 +1993,7 @@ namespace kplus_silverlight_player
                 }
             }
 
-            //switch (SmoothPlayer.CurrentState)
-            //{
-            //    case SmoothStreamingMediaElementState.Playing:
-            //        HtmlPage.Window.Eval("_wgsbneq.gAnalyticsModule.fireGoogleAnalyticsEvnt('Player','Playback', 'Pause')");
-            //        HtmlPage.Window.Eval("_wgsbneq.config.flags.isChnlPausedByUsr = true;");
-            //        SmoothPlayer.Pause();
-            //        var pBytes = Convert.FromBase64String(playBttnImgBase64);
-            //        var pStream = new MemoryStream(pBytes);
-            //        BitmapImage pBI = new BitmapImage();
-            //        pBI.SetSource(pStream);
-            //        playPauseBttn.Source = pBI;
-            //        break;
-
-            //    case SmoothStreamingMediaElementState.Paused:
-            //        HtmlPage.Window.Eval("_wgsbneq.gAnalyticsModule.fireGoogleAnalyticsEvnt('Player','Playback', 'Resume')");
-            //        HtmlPage.Window.Eval("_wgsbneq.config.flags.isChnlPausedByUsr = false;");
-            //        SmoothPlayer.Play();
-            //        pBytes = Convert.FromBase64String(pauseBttnImgBase64);
-            //        pStream = new MemoryStream(pBytes);
-            //        pBI = new BitmapImage();
-            //        pBI.SetSource(pStream);
-            //        playPauseBttn.Source = pBI;
-            //        break;
-            //}
+            
         }
 
         private void onSLappLoaded(object sender, RoutedEventArgs e)
@@ -2088,17 +2063,14 @@ namespace kplus_silverlight_player
                         sw.Write(e + Environment.NewLine + e.ErrorException.ToString());
                     }
                 }
-            } 
-            /*
-                CSM Refactor
-                Dispose
-            */
+            }
+            
             //HtmlPage.Window.Eval("_wgsbneq.Dispose()");
             if (HtmlPage.Window.Eval("_wgsbneq.CSMheartBeatModule.getCookie('C_Content_Id')") != "")
             {
                 HtmlPage.Window.Eval("_wgsbneq.CSMheartBeatModule.Dispose()");
             }
-            
+
             viewModel.isLicenseReqInProcess = false;
             string errorMessage = "";
             if (e.ErrorException.ToString().Contains(" 6001 "))
@@ -2199,13 +2171,13 @@ namespace kplus_silverlight_player
             topMenuLabels.Add(TopMenuInfo);
             topMenuLabels.Add(TopMenuMyKplus);
 
-            foreach (var menuItem in topMenuLabels)  // all the tob bar menu items
+            foreach (var menuItem in topMenuLabels)  
             {
                 var labelItem = (Label)menuItem;
 
                 if (labelItem.Name.Equals(eventOrginMenuItem.Name))
                 {
-                    // sending google analytics event
+                    
                     if (labelItem.Name.Equals("TopMenuInfo"))
                     {
                         HtmlPage.Window.Eval("_wgsbneq.gAnalyticsModule.fireGoogleAnalyticsEvnt('Info','Open')");
@@ -2268,7 +2240,7 @@ namespace kplus_silverlight_player
             topMenuLabels.Add(TopMenuInfo);
             topMenuLabels.Add(TopMenuMyKplus);
 
-            foreach (var menuItem in topMenuLabels)  // all the tob bar menu items
+            foreach (var menuItem in topMenuLabels)  
             {
                 var menuLabel = (Label)menuItem;
 
@@ -2322,7 +2294,7 @@ namespace kplus_silverlight_player
             {
                 StartOverEndBuffer = "0";
             }
-            
+
             return StartOverEndBuffer;
         }
 
@@ -2525,7 +2497,6 @@ namespace kplus_silverlight_player
 
         private void populateEPGinScrollGrid()
         {
-            // clearing previous tranform effect
             CompositeTransform cTranform = new CompositeTransform();
             cTranform.TranslateX = 0;
             epgBarContentCanvas.RenderTransform = cTranform;
@@ -2715,7 +2686,7 @@ namespace kplus_silverlight_player
                     rebroadcastContProgTitle.Text = "";
                     brdcastSchedScrlVwrGrid.Children.Clear();
 
-                    // populating Directors
+                    
                     if (programDetails.Contents[0].Persons.Director != null)
                     {
                         for (int i = 0; i < programDetails.Contents[0].Persons.Director.Length; i++)
@@ -2727,7 +2698,7 @@ namespace kplus_silverlight_player
 
                     if (viewModel.PlayerLang.Equals("vie"))
                     {
-                        // populating summary
+                        
                         var r1 = new Run();
                         r1.FontWeight = FontWeights.Bold;
                         r1.Text = (string)HtmlPage.Window.Eval("_wgsbneq.MultiLangSupportModule.getLabel(15,_wgsbneq.config.userPrefLanguage)");
@@ -2738,7 +2709,7 @@ namespace kplus_silverlight_player
                             synopsysValueLabel.Inlines.Add(descript);
                         }
 
-                        // populating Genres
+                        
                         var genresStr = "";
                         for (int i = 0; i < programDetails.Contents[0].Genres.Length; i++)
                         {
@@ -2753,7 +2724,7 @@ namespace kplus_silverlight_player
                             genresValLabel.Inlines.Add(genresStr);
                         }
 
-                        // populating Cast
+                        
                         var castStr = "";
                         if (programDetails.Contents[0].Persons.Actor != null)
                         {
@@ -2771,7 +2742,7 @@ namespace kplus_silverlight_player
                             castValLabel.Inlines.Add(castStr);
                         }
 
-                        // populating Broadcast Info
+                        
                         var broadcastContntStr = viewModel.CrntPlayingChannel.Title;
                         broadcastContntStr = broadcastContntStr + " - ";
                         broadcastContntStr = broadcastContntStr + (string)HtmlPage.Window.Eval("_wgsbneq.MultiLangSupportModule.getWeekDayName('" + program.LinearStartDateTime.ToLocalTime().DayOfWeek.ToString() + "',_wgsbneq.config.userPrefLanguage)") + " ";
@@ -2787,7 +2758,7 @@ namespace kplus_silverlight_player
                     }
                     else
                     {
-                        // populating summary
+                        
                         var r1 = new Run();
                         r1.FontWeight = FontWeights.Bold;
                         r1.Text = (string)HtmlPage.Window.Eval("_wgsbneq.MultiLangSupportModule.getLabel(15,_wgsbneq.config.userPrefLanguage)");
@@ -2798,7 +2769,7 @@ namespace kplus_silverlight_player
                             synopsysValueLabel.Inlines.Add(descript);
                         }
 
-                        // populating Genres
+                        
                         var genresStr = "";
                         for (int i = 0; i < programDetails.Contents[0].Genres.Length; i++)
                         {
@@ -2810,7 +2781,7 @@ namespace kplus_silverlight_player
                         genresValLabel.Inlines.Add(r2);
                         genresValLabel.Inlines.Add(genresStr);
 
-                        // populating Cast
+                        
                         var castStr = "";
                         if (programDetails.Contents[0].Persons.Actor != null)
                         {
@@ -2828,7 +2799,7 @@ namespace kplus_silverlight_player
                             castValLabel.Inlines.Add(castStr);
                         }
 
-                        // populating Broadcast Info
+                        
                         var broadcastContntStr = viewModel.CrntPlayingChannel.Title;
                         broadcastContntStr = broadcastContntStr + " - ";
                         broadcastContntStr = broadcastContntStr + (string)HtmlPage.Window.Eval("_wgsbneq.MultiLangSupportModule.getWeekDayName('" + program.LinearStartDateTime.ToLocalTime().DayOfWeek.ToString() + "',_wgsbneq.config.userPrefLanguage)") + " ";
@@ -2843,7 +2814,7 @@ namespace kplus_silverlight_player
                         broadcastSchValLabel.Inlines.Add(broadcastContntStr);
                     }
 
-                    // populating Broadcast Schedule
+                    
                     rebroadcastContProgTitle.Text = programDetails.Contents[0].Title;
                     var crntSysTime = DateTime.Now;
                     int topMargin = 0;
@@ -2997,8 +2968,7 @@ namespace kplus_silverlight_player
             syncTokenExpiry();
             syncPlayerIndividualizationMsg();
 
-            // sync playing stream with CSM heartbeat...if 'NOK' recieved from CSM request then stream
-            // should not play.
+            
             syncCSMerrorDisplay();
 
             syncLicenseErrorDisplay();
@@ -3225,7 +3195,7 @@ namespace kplus_silverlight_player
 
                     gridRow.Margin = new Thickness(0, 0, 0, calculatedMargin);
 
-                    // increamenting margin for next row
+                    
                     if (j % 2 == 0)
                     {
                         calculatedMargin = calculatedMargin + 6;
@@ -3344,7 +3314,6 @@ namespace kplus_silverlight_player
         {
             if (bitRateChartBars.Children.Count != 0)
             {
-                // matching stream-bitrate with chart bitrates and getting current chart verticle position
                 for (int i = 0; i < viewModel.SysAvailableBitRates.Length; i++)
                 {
                     if (viewModel.PlayerBitRate * 1000 <= viewModel.SysAvailableBitRates[i])
@@ -3796,7 +3765,7 @@ namespace kplus_silverlight_player
 
                 var programLength = (viewModel.startoverProgram.ProgEndTimeNonUTC - viewModel.startoverProgram.LinearStartDateTime.ToLocalTime()).TotalSeconds;
 
-                // for calculating percentage in progress
+                
                 var progStartTimeMilli = (viewModel.startoverProgram.LinearStartDateTime.ToLocalTime() - refDateTime).TotalMilliseconds;
                 var progEndTimeMilli = (viewModel.startoverProgram.ProgEndTimeNonUTC - refDateTime).TotalMilliseconds;
                 var crntSysTimeMilli = (crntSysTime - refDateTime).TotalMilliseconds;
@@ -4102,7 +4071,7 @@ namespace kplus_silverlight_player
 
                 var programLength = (viewModel.startoverProgram.ProgEndTimeNonUTC - viewModel.startoverProgram.LinearStartDateTime.ToLocalTime()).TotalSeconds;
 
-                // for calculating percentage in progress
+                
                 var progStartTimeMilli = (viewModel.startoverProgram.LinearStartDateTime.ToLocalTime() - refDateTime).TotalMilliseconds;
                 var progEndTimeMilli = (viewModel.startoverProgram.ProgEndTimeNonUTC - refDateTime).TotalMilliseconds;
                 var crntSysTimeMilli = (crntSysTime - refDateTime).TotalMilliseconds;
@@ -4114,7 +4083,7 @@ namespace kplus_silverlight_player
                 //tt5.Content = playerStartTime;
                 //tt6.Content = playerEndTime;
                 //tt7.Content = playerCurrentTime;
-                
+
                 if (!isEqualForDoubles(playerEndTime, 0.0))
                 {
                     //tt3.Content = "Program is playing" + counter++;
@@ -4179,8 +4148,8 @@ namespace kplus_silverlight_player
                                 if (SmoothPlayer.CurrentState == SmoothStreamingMediaElementState.Playing)
                                 {
                                     var newSeekPosition = TimeSpan.FromSeconds(SmoothPlayer.StartPosition.TotalSeconds + calculatedSeekTime + 120);
-                                    
-                                    SmoothPlayer.Position = newSeekPosition ;
+
+                                    SmoothPlayer.Position = newSeekPosition;
 
                                     plyrNotificationTxtBlk.Text = errorMsg + " " + "[APP-406]";
                                     plyrNotificationGrid.Visibility = System.Windows.Visibility.Visible;
@@ -4213,7 +4182,7 @@ namespace kplus_silverlight_player
                     var normalizedDuration = SmoothPlayer.EndPosition.TotalSeconds - SmoothPlayer.StartPosition.TotalSeconds;
                     normalizedDuration = normalizedDuration - Int16.Parse(getCrntChnlStartOverStartBuffer()) - Int16.Parse(getCrntChnlStartOverEndBuffer());
 
-                    
+
                     if (normalizedDuration < 0)
                     {
                         normalizedDuration = 1;
@@ -4342,7 +4311,7 @@ namespace kplus_silverlight_player
                     var rMinutes = (int)Math.Floor(progressRightTimeIntervalVal / 60);
                     var rSeconds = (int)Math.Floor(progressRightTimeIntervalVal - rMinutes * 60);
 
-                   
+
                     progressBarProgStarTime.Content = lMinutes.ToString().PadLeft(2, '0') + ":" + lSeconds.ToString().PadLeft(2, '0');
                     progressBarProgEndTime.Content = rMinutes.ToString().PadLeft(2, '0') + ":" + rSeconds.ToString().PadLeft(2, '0');
 
@@ -4469,7 +4438,7 @@ namespace kplus_silverlight_player
 
                 DateTime refDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0);
 
-                // for calculating percentage in progress
+                
                 var progStartTimeMilli = (viewModel.currentProgram.LinearStartDateTime.ToLocalTime() - refDateTime).TotalMilliseconds;
                 var progEndTimeMilli = (viewModel.currentProgram.ProgEndTimeNonUTC - refDateTime).TotalMilliseconds;
                 var crntSysTimeMilli = (crntSysTime - refDateTime).TotalMilliseconds;
@@ -4496,7 +4465,7 @@ namespace kplus_silverlight_player
                 progressBarRight.Width = progressBarInnerWrapper.ActualWidth - leftProgrsessBarWidth;
                 progressBarRight.Margin = new Thickness(leftProgrsessBarWidth, 0, 0, 0);
 
-                
+
                 progressBarProgStarTime.Content = viewModel.currentProgram.LinearStartDateTime.ToLocalTime().ToString("HH:mm");
                 progressBarProgEndTime.Content = viewModel.currentProgram.ProgEndTimeNonUTC.ToString("HH:mm");
 
@@ -4844,13 +4813,6 @@ namespace kplus_silverlight_player
                 return;
             }
 
-            ///GetChannelProgramGuideJSON.Program[] viewModel.filteredPrograms = null;
-
-            // clearing previous tranform effect
-            //CompositeTransform cTranform = new CompositeTransform();
-            //cTranform.TranslateX = 0;
-            //startoverBarEPGCanvas.RenderTransform = cTranform;
-
             try
             {
                 viewModel.availableStartoverPrograms = filteroutStartoverPrograms(viewModel.GetChannelProgramGuideRootObj.channels[0].Programs, startoverLength);
@@ -5148,7 +5110,7 @@ namespace kplus_silverlight_player
 
             viewModel.startoverProgram = null;
             viewModel.startoverProgramDetails = null;
-            //tt1.Content = "going to set statrover to false performStartoverProgramSelected";
+            
             viewModel.isStartoverProgramEnded = false;
 
             if (string.IsNullOrEmpty(isCalledWhenProgramEnded))
@@ -5172,7 +5134,7 @@ namespace kplus_silverlight_player
                     viewModel.timeShiftedToDate = DateTime.Now;
                 }
 
-                //KWEB-1175
+                
                 if (startOverLiveProg)
                 {
                     viewModel.isInStartoverMode = true;
@@ -5444,7 +5406,6 @@ namespace kplus_silverlight_player
 
         private void performStartoverBarClicked(double x)
         {
-            //tt12.Content = "performStartoverBarClicked() is called";
             if (viewModel.isInStartoverMode && viewModel.startoverProgram != null)
             {
                 var d = x / progressBarInnerWrapper.ActualWidth;
@@ -5453,18 +5414,17 @@ namespace kplus_silverlight_player
                 {
                     var v = Math.Floor(SmoothPlayer.EndPosition.TotalSeconds - SmoothPlayer.StartPosition.TotalSeconds) * d;
 
-                    
+
                     SmoothPlayer.Position = TimeSpan.FromSeconds(SmoothPlayer.StartPosition.TotalSeconds + v);
                 }
                 else
                 {
                     if (viewModel.isStartoverProgramEnded == true)
                     {
-                        performStartoverProgramSelected(viewModel.startoverProgram, "calledWhenProgramEnded", false,false);
+                        performStartoverProgramSelected(viewModel.startoverProgram, "calledWhenProgramEnded", false, false);
                     }
                 }
 
-                //tt2.Content = "going to set statrover to false performStartoverBarClicked";
                 viewModel.isStartoverProgramEnded = false;
             }
         }
@@ -5475,7 +5435,7 @@ namespace kplus_silverlight_player
             //tt2.Content = "";
             //tt3.Content = "";
             viewModel.isStartoverProgramEnded = true;
-            
+
             performTopMenuDetailClose();
         }
 
@@ -5517,7 +5477,7 @@ namespace kplus_silverlight_player
                     HtmlPage.Window.Eval("_wgsbneq.gAnalyticsModule.fireGoogleAnalyticsEvnt('Playback End', 'Start Over', '" + viewModel.startoverProgram.Title + "')");
                     viewModel.lastEndedProgramContentId = viewModel.startoverProgram.ContentId;
                 }
-                
+
                 StartoverBtnsOverlay.Visibility = System.Windows.Visibility.Visible;
                 //GetChannelProgramGuideJSON.Program selectedStartoverProgram = findNextStartoverProgram();
                 //if (selectedStartoverProgram != null)
@@ -5539,7 +5499,6 @@ namespace kplus_silverlight_player
 
         private void syncStartoverProgramEndedToBeSeeked()
         {
-            //tt11.Content = "syncStartoverProgramEndedToBeSeeked() is called";
             if (viewModel.isInStartoverMode && viewModel.startoverProgram != null)
             {
                 if (viewModel.startoverEndedProgramToBeSeekedValue != -1)
@@ -5547,7 +5506,7 @@ namespace kplus_silverlight_player
                     if (!isEqualForDoubles(SmoothPlayer.StartPosition.TotalSeconds, 0.0))
                     {
                         var v = Math.Floor(SmoothPlayer.EndPosition.TotalSeconds - SmoothPlayer.StartPosition.TotalSeconds) * viewModel.startoverEndedProgramToBeSeekedValue;
-                        
+
                         SmoothPlayer.Position = TimeSpan.FromSeconds(SmoothPlayer.StartPosition.TotalSeconds + v);
                         viewModel.startoverEndedProgramToBeSeekedValue = -1;
                     }
@@ -5824,7 +5783,7 @@ namespace kplus_silverlight_player
 
         private void performVideoSeekPositionChange(double ratio)
         {
-            
+
             if (!isEqualForDoubles(SmoothPlayer.StartPosition.TotalSeconds, 0.0))
             {
                 var normalizedDuration = SmoothPlayer.EndPosition.TotalSeconds - SmoothPlayer.StartPosition.TotalSeconds;
@@ -5835,7 +5794,7 @@ namespace kplus_silverlight_player
                 }
                 var v = Math.Floor(normalizedDuration) * ratio;
                 var newSeekPosition = TimeSpan.FromSeconds(SmoothPlayer.StartPosition.TotalSeconds + v);
-                
+
                 SmoothPlayer.Position = newSeekPosition;
             }
             else
@@ -5852,7 +5811,7 @@ namespace kplus_silverlight_player
                 SmoothPlayer.Play();
             }
 
-            //tt3.Content = "going to set statrover to false performVideoSeekPositionChange";
+            
             viewModel.isStartoverProgramEnded = false;
         }
 

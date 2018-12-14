@@ -45,7 +45,7 @@ module.exports = function (grunt) {
             },
             main: {
                 src: 'src/mykplus/KplusWebPlayer/js/app.js',
-                dest: 'dest/mykplus/KplusWebPlayer/js/kplus-player.js'
+                dest: 'dest/ottservices/KplusWebPlayer/js/kplus-player.js'
             }
         },
 
@@ -60,7 +60,7 @@ module.exports = function (grunt) {
                         'myKplusURL': 'https://webdev.kplus.vn/mykplus/manage',
                         'FingerPrintApiPath': 'https://fpapista.kplus.vn/api/fp/isalive',
                         'fingerPrintSwitch': 'true',
-                        'AuthToken': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxODE4YzdkZGNiODA0ZjNhOGU0MDY3YTcwM2E3OWVjOSIsImlzcyI6IjIwMzczNjIxODA1IiwiaWF0IjoxNDk1NDMyNTUwLCJuYnIiOjE0OTU0MzI2NzAsImV4cCI6MTUwNTgwMDU1MCwiZW1haWwiOiJoYWxpQHZvZHdvcmtzLmNvbSIsInN1YiI6IjhjZGU4ZmYxN2RjMDQ1OWViYjJiNGU3MmQxYmM2OTBkIiwic3RwIjoiZGJlNWFiZDQzNWE4NGI4ZDhiNDZlOTU4ZTQzNTkzOWQifQ.C-XTKWb1jQ1AVbg5lw4zCaqjAlea9shlQZKGQDbyw7w',
+                        'AuthToken': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI2NzdhMGZmMi1hOGZkLTRlZTUtODk0OC01OWE4ZDE1NzI2YjMiLCJpc3MiOiIyMDM3MzYyMTgxOCIsImlhdCI6MTU0MzQxMDM1NiwibmJyIjoxNTQzNDM5MTcyLCJleHAiOjE1NTM3NzgzNzIsImVtYWlsIjoiV2ViUGxheWVyQHZvZHdvcmtzLnZuIiwic3ViIjoiMWQ2ZjcyZmMwNTIzNDc0YmJlNTJlNDU4OGIzNDk2Y2UiLCJzdHAiOiI0OTI1ZDZjNjQwZjk0MGExOTdlY2IxYzU2MGNiY2U4ZSJ9.MFUTyO88nkW6Gs4HTDPFJ40SbpaB0uVRNoDDcFWqLJw',
                         'SubscriberId': '20373621805',
                         'displayDebugMsgs': 'true',
                         'programGuideUrl': 'https://epgstg-vt.kplus.vn/kplus/1.4/Content/programguidecdn',
@@ -107,20 +107,26 @@ module.exports = function (grunt) {
 
         clean: {
             dest: ['dest/*'],
-            custom: ['dest/mykplus/KplusWebPlayer/css/', 'dest/mykplus/KplusWebPlayer/js/'],
-            kplusPlayerOfile: ['dest/mykplus/KplusWebPlayer/js/kplus-player-o.js']
+            custom: ['dest/ottservices/KplusWebPlayer/css/', 'dest/ottservices/KplusWebPlayer/js/'],
+            kplusPlayerOfile: ['dest/ottservices/KplusWebPlayer/js/kplus-player-o.js']
         },
 
         copy: {
             srcToDest: {
                 src: ['**'],
-                dest: 'dest/',
-                cwd: 'src/',
+                dest: 'dest/ottservices',
+                cwd: 'src/mykplus',
                 expand: true
+            },
+            index:{
+                src:['**'],
+                dest :'dest',
+                cwd:'src/index.html',
+                expand:true
             },
             PlayerFolder: {
                 src: ['**'],
-                dest: 'dest/mykplus/KplusWebPlayer/Player/',
+                dest: 'dest/ottservices/KplusWebPlayer/Player/',
                 cwd: 'src/mykplus/KplusWebPlayer/Player/',
                 expand: true
             }
@@ -131,15 +137,15 @@ module.exports = function (grunt) {
                     'src/mykplus/KplusWebPlayer/js/browserInfo.js',
                     'src/mykplus/KplusWebPlayer/js/ga.js',
                     'src/mykplus/KplusWebPlayer/js/uiblock.js',
-                    'dest/mykplus/KplusWebPlayer/js/kplus-player.js'],
-                dest: 'dest/mykplus/KplusWebPlayer/js/kplus-player.js'
+                    'dest/ottservices/KplusWebPlayer/js/kplus-player.js'],
+                dest: 'dest/ottservices/KplusWebPlayer/js/kplus-player.js'
             }
         },
 
         uglify: {
             my_target: {
                 files: {
-                    'dest/mykplus/KplusWebPlayer/js/kplus-player.js': ['dest/mykplus/KplusWebPlayer/js/kplus-player.js']
+                    'dest/ottservices/KplusWebPlayer/js/kplus-player.js': ['dest/ottservices/KplusWebPlayer/js/kplus-player.js']
                 }
             }
         },
@@ -157,7 +163,7 @@ module.exports = function (grunt) {
                         'src/mykplus/KplusWebPlayer/css/video-controls.css',
                         'src/mykplus/KplusWebPlayer/css/channels-list-template.css',
                         'src/mykplus/KplusWebPlayer/css/startover-tpl.css'],
-                    dest: 'dest/mykplus/KplusWebPlayer/css/kplus-player.css'
+                    dest: 'dest/ottservices/KplusWebPlayer/css/kplus-player.css'
 
                 }]
             }
@@ -170,7 +176,7 @@ module.exports = function (grunt) {
                     linebreak: true || false
                 },
                 files: {
-                    src: ['dest/mykplus/KplusWebPlayer/css/kplus-player.css','dest/mykplus/KplusWebPlayer/js/kplus-player.js']
+                    src: ['dest/ottservices/KplusWebPlayer/css/kplus-player.css','dest/ottservices/KplusWebPlayer/js/kplus-player.js']
                 }
             }
         },
@@ -232,12 +238,12 @@ module.exports = function (grunt) {
                 files: [
                     {src: ['dest/index.html'], dest: 'dest/index.html'},
                     {
-                        src: ['dest/mykplus/KplusWebPlayer/js/kplus-player.js'],
-                        dest: 'dest/mykplus/KplusWebPlayer/js/kplus-player.js'
+                        src: ['dest/ottservices/KplusWebPlayer/js/kplus-player.js'],
+                        dest: 'dest/ottservices/KplusWebPlayer/js/kplus-player.js'
                     },
                     {
-                        src: ['dest/mykplus/KplusWebPlayer/template/overlay-container-tpl.html'],
-                        dest: 'dest/mykplus/KplusWebPlayer/template/overlay-container-tpl.html'
+                        src: ['dest/ottservices/KplusWebPlayer/template/overlay-container-tpl.html'],
+                        dest: 'dest/ottservices/KplusWebPlayer/template/overlay-container-tpl.html'
                     }]
             },
             prod: {
@@ -292,12 +298,12 @@ module.exports = function (grunt) {
                 files: [
                     {src: ['dest/index.html'], dest: 'dest/index.html'},
                     {
-                        src: ['dest/mykplus/KplusWebPlayer/js/kplus-player.js'],
-                        dest: 'dest/mykplus/KplusWebPlayer/js/kplus-player.js'
+                        src: ['dest/ottservices/KplusWebPlayer/js/kplus-player.js'],
+                        dest: 'dest/ottservices/KplusWebPlayer/js/kplus-player.js'
                     },
                     {
-                        src: ['dest/mykplus/KplusWebPlayer/template/overlay-container-tpl.html'],
-                        dest: 'dest/mykplus/KplusWebPlayer/template/overlay-container-tpl.html'
+                        src: ['dest/ottservices/KplusWebPlayer/template/overlay-container-tpl.html'],
+                        dest: 'dest/ottservices/KplusWebPlayer/template/overlay-container-tpl.html'
                     }]
             }
         },
@@ -315,8 +321,8 @@ module.exports = function (grunt) {
                     variableExclusions: ['^_get_', '^_set_', '^_mtd_']
                 },
                 files: {
-                    'dest/mykplus/KplusWebPlayer/js/kplus-player-o.js': [
-                        'dest/mykplus/KplusWebPlayer/js/kplus-player.js'
+                    'dest/ottservices/KplusWebPlayer/js/kplus-player-o.js': [
+                        'dest/ottservices/KplusWebPlayer/js/kplus-player.js'
                     ]
                 }
             }

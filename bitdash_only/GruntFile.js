@@ -119,17 +119,18 @@ module.exports = function (grunt) {
                 expand: true
             },
             index:{
-                src:['**'],
-                dest :'dest',
-                cwd:'src/index.html',
-                expand:true
-            },
+                src:['*.html'],
+                dest :'dest/',
+                cwd:'src/',
+                expand:true
+            },
             PlayerFolder: {
                 src: ['**'],
                 dest: 'dest/ottservices/KplusWebPlayer/Player/',
                 cwd: 'src/mykplus/KplusWebPlayer/Player/',
                 expand: true
-            }
+            },
+            
         },
         concat: {
             jsFiles: {
@@ -364,29 +365,24 @@ module.exports = function (grunt) {
 
     // grunt.registerTask('custom', ['clean:custom', 'copy:PlayerFolder', 'cssmin', 'uglify','usebanner:attachKpBanner']);
 
-
-    /*grunt.registerTask('dev', 'dev build', function () {
-     grunt.task.run('config:dev', 'clean:dest', 'copy:srcToDest', 'clean:custom', 'babel',  'cssmin', /!*'uglify',*!/'usebanner:attachKpBanner'/!*, 'replace:dev'*!/);
-     });*/
-
     grunt.registerTask('dev', 'dev build', function () {
-        grunt.task.run('config:dev', 'clean:dest', 'copy:srcToDest', 'clean:custom', 'browserify', 'replace:dev'/*, 'uglify'*/, /*'jsObfuscate:test',*/  /*'concat:jsFiles',*/ 'cssmin', 'usebanner:attachKpBanner', 'clean:kplusPlayerOfile');
-    });
+        grunt.task.run('config:dev', 'clean:dest', 'copy:srcToDest','copy:index', 'clean:custom', 'browserify', 'replace:dev'/*, 'uglify'*/, /*'jsObfuscate:test',*/  /*'concat:jsFiles',*/ 'cssmin', 'usebanner:attachKpBanner', 'clean:kplusPlayerOfile');
+    });
 
-    /*grunt.registerTask('stage', 'stage build', function () {
-     grunt.task.run('config:stage', 'clean:dest', 'copy:srcToDest', 'clean:custom', 'babel', 'cssmin', 'uglify','usebanner:attachKpBanner', 'replace:dev');
-     });*/
+    /*grunt.registerTask('stage', 'stage build', function () {
+     grunt.task.run('config:stage', 'clean:dest', 'copy:srcToDest', 'clean:custom', 'babel', 'cssmin', 'uglify','usebanner:attachKpBanner', 'replace:dev');
+     });*/
 
-    grunt.registerTask('stage', 'stage build', function () {
-        grunt.task.run('config:stage', 'clean:dest', 'copy:srcToDest', 'clean:custom', 'browserify', 'replace:dev', 'uglify', /*'jsObfuscate:test',*/ /*'concat:jsFiles',*/ 'cssmin', 'usebanner:attachKpBanner', 'clean:kplusPlayerOfile');
-    });
+    grunt.registerTask('stage', 'stage build', function () {
+        grunt.task.run('config:stage', 'clean:dest', 'copy:srcToDest', 'copy:index','clean:custom', 'browserify', 'replace:dev', 'uglify', /*'jsObfuscate:test',*/ /*'concat:jsFiles',*/ 'cssmin', 'usebanner:attachKpBanner', 'clean:kplusPlayerOfile');
+    });
 
-    /*grunt.registerTask('prod', 'production build', function () {
-     grunt.task.run('config:prod', 'clean:dest', 'copy:srcToDest', 'clean:custom', 'babel', 'cssmin', 'uglify', 'usebanner:attachKpBanner', 'replace:prod');
-     });*/
+    /*grunt.registerTask('prod', 'production build', function () {
+     grunt.task.run('config:prod', 'clean:dest', 'copy:srcToDest', 'clean:custom', 'babel', 'cssmin', 'uglify', 'usebanner:attachKpBanner', 'replace:prod');
+     });*/
 
-    grunt.registerTask('prod', 'production build', function () {
-        grunt.task.run('config:prod', 'clean:dest', 'copy:srcToDest', 'clean:custom', 'browserify', 'replace:dev', 'uglify', /*'jsObfuscate:test',*/ /*'concat:jsFiles',*/ 'cssmin', 'usebanner:attachKpBanner', 'clean:kplusPlayerOfile');
-    });
+    grunt.registerTask('prod', 'production build', function () {
+        grunt.task.run('config:prod', 'clean:dest', 'copy:srcToDest','copy:index', 'clean:custom', 'browserify', 'replace:dev', 'uglify', /*'jsObfuscate:test',*/ /*'concat:jsFiles',*/ 'cssmin', 'usebanner:attachKpBanner', 'clean:kplusPlayerOfile');
+    });
 
 };
